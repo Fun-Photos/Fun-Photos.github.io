@@ -1,15 +1,39 @@
 <script lang="ts">
 	// Imports:
 	import { onMount } from 'svelte';
-	import { Canvas, Layer, type Render } from 'svelte-canvas';
+	import SourceImage from '$lib/SourceImage.svelte';
+	// import { Canvas, Layer, type Render } from 'svelte-canvas';
 	// Initializations & Exports:
-	let render: Render;
+	// let render: Render;
+	// let canvas: HTMLCanvasElement;
 
 	onMount(() => {
 		// :3
+		// 	const ctx = canvas.getContext('2d');
+		// 	let frame = requestAnimationFrame(loop);
+		// 	function loop(t: any) {
+		// 		frame = requestAnimationFrame(loop);
+		// 		const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height)!;
+		// 		for (let p = 0; p < imageData.data.length; p += 4) {
+		// 			const i = p / 4;
+		// 			const x = i % canvas.width;
+		// 			const y = (i / canvas.width) >>> 0;
+		// 			const r = 64 + (128 * x) / canvas.width + 64 * Math.sin(t / 1000);
+		// 			const g = 64 + (128 * y) / canvas.height + 64 * Math.cos(t / 1000);
+		// 			const b = 128;
+		// 			imageData.data[p + 0] = r;
+		// 			imageData.data[p + 1] = g;
+		// 			imageData.data[p + 2] = b;
+		// 			imageData.data[p + 3] = 255;
+		// 		}
+		// 		ctx?.putImageData(imageData, 0, 0);
+		// 	}
+		// 	return () => {
+		// 		cancelAnimationFrame(frame);
+		// 	};
 	});
 
-	$: render = ({ context, width, height }) => {};
+	// $: render = ({ context, width, height }) => {};
 
 	// function getUserMedia(options: any, successCallback: any, failureCallback: any) {
 	// 	var api =
@@ -94,9 +118,7 @@
 	<span>Fun Photos</span>
 </section>
 
-<Canvas width={640} height={640} layerEvents={true}>
-	<Layer {render} />
-</Canvas>
+<SourceImage />
 
 <!-- <p><button onclick="getStream()">Grab video</button></p>
 <p><video autoplay style="height: 180px; width: 240px;" /></p>

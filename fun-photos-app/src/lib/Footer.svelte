@@ -6,13 +6,13 @@
 
 <footer>
 	<!-- Footer Content -->
+	<span> Footer content goes here. </span>
 </footer>
 
 <!-- #################################################################################################### -->
 <style>
 	footer {
-		position: fixed;
-		bottom: 0;
+		margin-top: auto;
 		justify-content: center;
 		align-items: center;
 		display: flex;

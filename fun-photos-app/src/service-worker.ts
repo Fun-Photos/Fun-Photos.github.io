@@ -2,13 +2,25 @@
 /// <reference types="@sveltejs/kit" />
 
 // Imports:
-import { build, files, version } from '$service-worker';
+import { build, files, prerendered, version } from '$service-worker';
+import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
 
 // Initializations:
 const worker = (self as unknown) as ServiceWorkerGlobalScope;
 const FILES = `cache${version}`;
 const to_cache = build.concat(files);
 const staticAssets = new Set(to_cache);
+
+const precache_list = [
+    '/',
+    ...build,
+    ...files,
+    ...prerendered
+].map(s => ({
+    url: s,
+    revision: version
+}))
+precacheAndRoute(precache_list);
 
 // Install Event:
 worker.addEventListener('install', (event) => {
