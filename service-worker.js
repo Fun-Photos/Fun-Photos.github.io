@@ -17,7 +17,7 @@ const x = [
   "/icon.png",
   "/manifest.json",
   "/manifest.webmanifest"
-], I = [], k = "1676347047738";
+], I = [], k = "1676347267774";
 try {
   self["workbox:core:6.5.3"] && _();
 } catch {
