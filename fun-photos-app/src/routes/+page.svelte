@@ -1,4 +1,6 @@
 <script lang="ts">
+	export const prerender = true;
+	// TODO: clean this up
 	// Imports:
 	import { onMount } from 'svelte';
 	import SourceImage from '$lib/SourceImage.svelte';
