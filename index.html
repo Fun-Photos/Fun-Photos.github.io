@@ -11,31 +11,24 @@
 
     <!-- SvelteKit Header -->
     <meta http-equiv="content-security-policy" content="">
-		<link rel="modulepreload" href="./_app/immutable/start-c40afddc.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index-d4ff72c6.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons-4b23d8b5.js">
-		<script>
-			if ('serviceWorker' in navigator) {
-				addEventListener('load', function () {
-					navigator.serviceWorker.register('/service-worker.js');
-				});
-			}
-		</script>
+    <link rel="modulepreload" href="/app/immutable/start-c40afddc.js">
+    <link rel="modulepreload" href="/app/immutable/chunks/index-d4ff72c6.js">
+    <link rel="modulepreload" href="/app/immutable/chunks/singletons-4b23d8b5.js">
+    <script>
+        if ('serviceWorker' in navigator) {
+            addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+    </script>
 </head>
 
 <body data-sveltekit-preload-data="hover">
     <div style="display: contents">
-        
-		<script type="module" data-sveltekit-hydrate="45h">
-			import { start } from "./_app/immutable/start-c40afddc.js";
 
-			start({
-				assets: "",
-				env: {},
-				target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
-				version: "1676347347178"
-			});
-		</script>
+        <script type="module" data-sveltekit-hydrate="45h">
+            import { start } from "/app/immutable/start-c40afddc.js"; start({ assets: "", env: {}, target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode, version: "1676347347178" });
+        </script>
     </div>
 </body>
 
