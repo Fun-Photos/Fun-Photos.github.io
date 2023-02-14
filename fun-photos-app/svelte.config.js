@@ -9,8 +9,17 @@ const config = {
 
     kit: {
         adapter: adapter({
-            strict: false
-        })
+            strict: false,
+            pages: 'build',
+            assets: 'build',
+            fallback: 'index.html',
+            precompress: true,
+            trailingSlash: 'always'
+        }),
+        paths: {
+            base: process.env.NODE_ENV === "production" ? "/fun-photos-app" : "",
+        },
+        //appDir: 'internal'
     }
 };
 
