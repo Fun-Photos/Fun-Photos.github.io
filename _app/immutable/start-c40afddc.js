@@ -1,5 +1,5 @@
 import { S as SvelteComponent, i as init, s as safe_not_equal, a as space, e as empty, c as claim_space, b as insert_hydration, g as group_outros, t as transition_out, d as check_outros, f as transition_in, h as detach, j as afterUpdate, o as onMount, k as element, l as claim_element, m as children, n as attr, p as set_style, q as text, r as claim_text, u as set_data, v as binding_callbacks, w as construct_svelte_component, x as create_component, y as claim_component, z as mount_component, A as destroy_component, B as tick } from "./chunks/index-d4ff72c6.js";
-import { S as SCROLL_KEY, a as SNAPSHOT_KEY, I as INDEX_KEY, g as get_base_uri, f as find_anchor, b as get_link_info, c as get_router_options, s as stores, i as is_external_url, d as scroll_state, e as base, P as PRELOAD_PRIORITIES, h as init$1, j as set_assets, k as set_version } from "./chunks/singletons-5e58c9a2.js";
+import { S as SCROLL_KEY, a as SNAPSHOT_KEY, I as INDEX_KEY, g as get_base_uri, f as find_anchor, b as get_link_info, c as get_router_options, s as stores, i as is_external_url, d as scroll_state, e as base, P as PRELOAD_PRIORITIES, h as init$1, j as set_assets, k as set_version } from "./chunks/singletons-4b23d8b5.js";
 function normalize_path(path, trailing_slash) {
   if (path === "/" || trailing_slash === "ignore")
     return path;
@@ -901,7 +901,7 @@ const __vitePreload = function preload(baseModule, deps, importerUrl) {
 const matchers = {};
 const nodes = [
   () => __vitePreload(() => import("./chunks/0-7f991fcd.js"), true ? ["./chunks\\0-7f991fcd.js","./components\\pages\\_layout.svelte-2b0efb65.js","./chunks\\index-d4ff72c6.js","./assets\\_layout-1f1af934.css"] : void 0, import.meta.url),
-  () => __vitePreload(() => import("./chunks/1-1e521d93.js"), true ? ["./chunks\\1-1e521d93.js","./components\\error.svelte-1c1eec2c.js","./chunks\\index-d4ff72c6.js","./chunks\\singletons-5e58c9a2.js"] : void 0, import.meta.url),
+  () => __vitePreload(() => import("./chunks/1-76bb2881.js"), true ? ["./chunks\\1-76bb2881.js","./components\\error.svelte-e6cfd883.js","./chunks\\index-d4ff72c6.js","./chunks\\singletons-4b23d8b5.js"] : void 0, import.meta.url),
   () => __vitePreload(() => import("./chunks/2-15c853a4.js"), true ? ["./chunks\\2-15c853a4.js","./components\\pages\\_page.svelte-63ca46e9.js","./chunks\\index-d4ff72c6.js","./assets\\_page-242694ee.css"] : void 0, import.meta.url),
   () => __vitePreload(() => import("./chunks/3-532f11ce.js"), true ? ["./chunks\\3-532f11ce.js","./components\\pages\\about\\_page.svelte-0a4fbb08.js","./chunks\\index-d4ff72c6.js"] : void 0, import.meta.url)
 ];

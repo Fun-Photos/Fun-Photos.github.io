@@ -41,7 +41,7 @@ function writable(value, start = noop) {
   }
   return { set, update, subscribe };
 }
-const base = "/fun-photos-app";
+const base = "";
 let assets = base;
 function set_assets(path) {
   assets = path;
