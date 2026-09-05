@@ -1,35 +1,667 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Fun Photos — On-Device Photo Booth & Novelty Merchandise Studio</title>
+  <meta name="description" content="Fun Photos is a privacy-first, on-device photo booth and background replacement web app & PWA. Composite high-res photos onto stunning backdrops, order custom merchandise, and export 300 DPI prints.">
+  <meta name="theme-color" content="#090d16">
 
-    <link rel="icon" href="/favicon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="manifest" href="/manifest.json" />
+  <!-- OpenGraph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fun-photos.github.io/">
+  <meta property="og:title" content="Fun Photos — On-Device Photo Booth & Novelty Studio">
+  <meta property="og:description" content="Capture, isolate foreground subjects locally with zero cloud uploads, swap high-definition backdrops, and order custom novelty merchandise.">
+  <meta property="og:image" content="https://fun-photos.github.io/assets/hero-mockup.jpg">
 
-    <!-- SvelteKit Header -->
-    <meta http-equiv="content-security-policy" content="">
-    <link rel="modulepreload" href="/app/immutable/start-c40afddc.js">
-    <link rel="modulepreload" href="/app/immutable/chunks/index-d4ff72c6.js">
-    <link rel="modulepreload" href="/app/immutable/chunks/singletons-4b23d8b5.js">
-    <script>
-        if ('serviceWorker' in navigator) {
-            addEventListener('load', function() {
-                navigator.serviceWorker.register('/service-worker.js');
-            });
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://fun-photos.github.io/">
+  <meta property="twitter:title" content="Fun Photos — On-Device Photo Booth & Novelty Studio">
+  <meta property="twitter:description" content="100% on-device local privacy, background replacement, 300 DPI print presets, and novelty merchandise studio.">
+  <meta property="twitter:image" content="https://fun-photos.github.io/assets/hero-mockup.jpg">
+
+  <!-- Icons & Manifest -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Prevent Flash of Unstyled Content (FOUC) -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('color-scheme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
-    </script>
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
 </head>
+<body>
 
-<body data-sveltekit-preload-data="hover">
-    <div style="display: contents">
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-content">
+      <a href="#" class="brand-logo" id="brand-link" aria-label="Fun Photos Home">
+        <img src="assets/icons/icon.svg" alt="Fun Photos Camera Icon" class="brand-icon" width="40" height="40">
+        <span>Fun<span class="gradient-text">Photos</span></span>
+      </a>
 
-        <script type="module" data-sveltekit-hydrate="45h">
-            import { start } from "/app/immutable/start-c40afddc.js"; start({ assets: "", env: {}, target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode, version: "1676347347178" });
-        </script>
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#simulator">Live Demo</a></li>
+          <li><a href="#merchandise">Merchandise</a></li>
+          <li><a href="#install">Install PWA/TWA</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Color Theme">
+          <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <a href="https://fun-photos.github.io/photo-background/" class="btn btn-primary btn-sm" id="nav-launch-btn">
+          <span>Launch Studio</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        </a>
+      </div>
     </div>
-</body>
+  </header>
 
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-text-col">
+            <div class="hero-badge-wrapper">
+              <span class="pill-badge">
+                <span class="pulse-dot"></span>
+                100% On-Device Privacy
+              </span>
+              <span class="pill-badge">Angular 20+ &bull; PWA &bull; TWA Ready</span>
+            </div>
+
+            <h1 class="hero-title">
+              Instant Photo Booth Magic, <br>
+              <span class="gradient-text">Right in Your Browser.</span>
+            </h1>
+
+            <p class="hero-desc">
+              Effortlessly capture, isolate foreground subjects, swap high-definition backdrops, order custom novelty merchandise, and export 300 DPI print presets — all rendered client-side with zero external cloud uploads.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="https://fun-photos.github.io/photo-background/" class="btn btn-primary btn-lg" id="hero-launch-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Launch Web Studio</span>
+              </a>
+
+              <a href="#install" class="btn btn-secondary btn-lg" id="hero-install-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Install PWA / TWA</span>
+              </a>
+
+              <a href="https://github.com/Fun-Photos/photo-background" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" aria-label="GitHub Repository">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span>GitHub</span>
+              </a>
+            </div>
+
+            <div class="hero-stats">
+              <div class="stat-item">
+                <span class="stat-num gradient-text">100%</span>
+                <span class="stat-label">On-Device Privacy</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-num">300 DPI</span>
+                <span class="stat-label">Pro Print Output</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-num">0 ms</span>
+                <span class="stat-label">Cloud Server Latency</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Simulator Column -->
+          <div class="hero-simulator-col" id="simulator">
+            <div class="interactive-showcase-card">
+              <div class="simulator-header">
+                <div class="window-dots">
+                  <span class="dot-red"></span>
+                  <span class="dot-yellow"></span>
+                  <span class="dot-green"></span>
+                </div>
+                <span class="simulator-tag">Interactive Preview</span>
+                <span class="pill-badge" style="padding: 0.2rem 0.6rem; font-size: 0.72rem;">Canvas 2D</span>
+              </div>
+
+              <div class="canvas-viewport" id="preview-viewport">
+                <div class="backdrop-layer" id="live-backdrop" style="background-image: url('assets/backgrounds/cyber-neon.svg');"></div>
+                <img src="assets/subject-cutout.svg" alt="Sample Portrait Subject Cutout" class="subject-layer" id="live-subject" width="500" height="650">
+                <div class="viewport-badge" id="active-backdrop-name">Cyberpunk Neon</div>
+              </div>
+
+              <div class="simulator-controls">
+                <div class="controls-label">
+                  <span>Choose Backdrop</span>
+                  <span style="font-size: 0.75rem; color: var(--brand-secondary); font-weight: 500;">Click to swap</span>
+                </div>
+                <div class="backdrop-picker-list" role="radiogroup" aria-label="Select Backdrop">
+                  <button type="button" class="picker-btn active" data-src="assets/backgrounds/cyber-neon.svg" data-name="Cyberpunk Neon">
+                    <span class="picker-swatch" style="background: linear-gradient(135deg, #06b6d4, #ec4899);"></span>
+                    <span>Cyber Neon</span>
+                  </button>
+                  <button type="button" class="picker-btn" data-src="assets/backgrounds/tropical-beach.svg" data-name="Tropical Sunset Beach">
+                    <span class="picker-swatch" style="background: linear-gradient(135deg, #f59e0b, #ef4444);"></span>
+                    <span>Beach</span>
+                  </button>
+                  <button type="button" class="picker-btn" data-src="assets/backgrounds/magic-forest.svg" data-name="Enchanted Forest">
+                    <span class="picker-swatch" style="background: linear-gradient(135deg, #10b981, #065f46);"></span>
+                    <span>Forest</span>
+                  </button>
+                  <button type="button" class="picker-btn" data-src="assets/backgrounds/party-confetti.svg" data-name="Party Confetti">
+                    <span class="picker-swatch" style="background: linear-gradient(135deg, #8b5cf6, #f43f5e);"></span>
+                    <span>Party</span>
+                  </button>
+                  <button type="button" class="picker-btn" data-src="assets/backgrounds/gradient-sunset.svg" data-name="Warm Sunset">
+                    <span class="picker-swatch" style="background: linear-gradient(135deg, #fb923c, #c026d3);"></span>
+                    <span>Sunset</span>
+                  </button>
+                  <button type="button" class="picker-btn" data-src="assets/backgrounds/solid-chroma-green.svg" data-name="Calibrated Chroma Green">
+                    <span class="picker-swatch" style="background: #00b140;"></span>
+                    <span>Chroma</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio Showcase Banner -->
+    <section class="studio-banner-section">
+      <div class="container">
+        <div class="banner-card">
+          <div class="banner-content">
+            <span class="banner-badge">Event Ready &bull; Festival Ready</span>
+            <h2 class="banner-title">A Complete Photo Booth & Merchandise Kiosk in Your Pocket.</h2>
+            <p class="banner-desc">
+              Whether you are running an event photo booth at a comic convention, a festival vendor tent, or creating personalized gifts for guests, Fun Photos offers instant camera capture, high-definition background composition, and real-time merchandise ordering with zero setup hurdles.
+            </p>
+            <div class="banner-action-row">
+              <a href="https://fun-photos.github.io/photo-background/" class="btn btn-primary">
+                <span>Open Photo Studio App</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <a href="#install" class="btn btn-secondary">
+                <span>View PWA Setup</span>
+              </a>
+            </div>
+          </div>
+          <img src="assets/hero-mockup.jpg" alt="Fun Photos Photo Booth Terminal and Merchandise Studio" class="mockup-image-preview" width="600" height="338">
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-subtitle">Core Capabilities</div>
+          <h2 class="section-title">Engineered for Performance, Built for Total Privacy.</h2>
+          <p class="section-desc">
+            Fun Photos combines modern web standards, local Canvas composition, and offline-first PWA architecture to deliver a lightning-fast experience without compromising user data.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h3 class="feature-title">100% On-Device Local Privacy</h3>
+            <p class="feature-text">
+              Customer photos are processed entirely inside the browser's 2D canvas pipeline. Images never leave the device, never touch external cloud servers, and comply naturally with GDPR & CCPA privacy standards.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </div>
+            <h3 class="feature-title">Dual-Camera & Sensor Fidelity</h3>
+            <p class="feature-text">
+              Smooth live camera preview with instantaneous front/rear facing mode toggles. Uses a dual-resolution pipeline: editing is fast at 1280px preview, while final renders preserve full original camera sensor resolution.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </div>
+            <h3 class="feature-title">Smart Segmentation & Alpha Mattes</h3>
+            <p class="feature-text">
+              Decoupled foreground extraction interface supporting continuous 8-bit alpha mattes (0–255), smooth feathered edge blending, studio chroma keying, and plug-and-play browser-native AI segmentation models.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            </div>
+            <h3 class="feature-title">Curated Backdrop Catalog</h3>
+            <p class="feature-text">
+              Comes packed with vector & high-definition backdrops: Cyberpunk Neon, Tropical Beach, Magic Forest, Party Confetti, Warm Sunset, Studio Classic, and Calibrated Chroma Green, plus custom operator image uploads.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            </div>
+            <h3 class="feature-title">300 DPI Pro Print Presets</h3>
+            <p class="feature-text">
+              Instant one-click exports tailored for event photo printers: 4" × 6", 5" × 7", 8" × 10", 1:1 Square, and Apparel Transfer. Integrated with Web Share API and OS clipboard copy for frictionless sharing.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            </div>
+            <h3 class="feature-title">Novelty Merchandise Studio</h3>
+            <p class="feature-text">
+              Transform customer photos into physical novelty keepsakes. Features photorealistic mockups on T-shirts, Ceramic Coffee Mugs, Acrylic Keychains, Vintage Caps, and Canvas Gallery Wraps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Merchandise Studio Section -->
+    <section class="section" id="merchandise" style="background-color: var(--bg-surface);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-subtitle">Novelty Keepsakes</div>
+          <h2 class="section-title">Turn Every Snapshot into Physical Merch.</h2>
+          <p class="section-desc">
+            Fun Photos includes built-in product rendering so customers can immediately visualize their background-replaced photos on physical merchandise items.
+          </p>
+        </div>
+
+        <div class="merchandise-grid">
+          <div class="merch-card">
+            <div class="merch-preview-box">
+              <span class="merch-badge">Direct-to-Garment</span>
+              <div class="merch-icon">👕</div>
+            </div>
+            <h3 class="merch-name">Custom Graphic T-Shirt</h3>
+            <p class="merch-spec">Premium cotton unisex tee with high-definition DTG chest print.</p>
+          </div>
+
+          <div class="merch-card">
+            <div class="merch-preview-box">
+              <span class="merch-badge">Sublimation</span>
+              <div class="merch-icon">☕</div>
+            </div>
+            <h3 class="merch-name">Ceramic Coffee Mug</h3>
+            <p class="merch-spec">11 oz / 15 oz glossy ceramic mug with vibrant 360 wrap printing.</p>
+          </div>
+
+          <div class="merch-card">
+            <div class="merch-preview-box">
+              <span class="merch-badge">Laser Cut</span>
+              <div class="merch-icon">🔑</div>
+            </div>
+            <h3 class="merch-name">Acrylic Photo Keychain</h3>
+            <p class="merch-spec">Durable crystal-clear acrylic charm with stainless steel ring.</p>
+          </div>
+
+          <div class="merch-card">
+            <div class="merch-preview-box">
+              <span class="merch-badge">Archival Grade</span>
+              <div class="merch-icon">🖼️</div>
+            </div>
+            <h3 class="merch-name">Canvas Gallery Wrap</h3>
+            <p class="merch-spec">Solid wood frame, acid-free archival inks, ready to hang on the wall.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PWA / TWA Installation Hub -->
+    <section class="section" id="install">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-subtitle">Anywhere, Any Device</div>
+          <h2 class="section-title">Install Fun Photos as a Native PWA or Android TWA.</h2>
+          <p class="section-desc">
+            No app store download friction required. Install directly onto Android, iOS, Windows, macOS, and Linux with full offline capability and standalone window support.
+          </p>
+        </div>
+
+        <div class="install-hub-card">
+          <div class="install-tabs" role="tablist">
+            <button type="button" class="tab-btn active" data-target="android-guide" role="tab" aria-selected="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.411 13.8543 8.083 12 8.083c-1.8545 0-3.5905.328-5.1328.8667L4.8449 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+              <span>Android (PWA &amp; TWA)</span>
+            </button>
+            <button type="button" class="tab-btn" data-target="ios-guide" role="tab" aria-selected="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.64 1.36-.58.68-1.09 1.76-.96 2.8.99.08 2.05-.53 2.68-1.31z"/></svg>
+              <span>iOS (iPhone &amp; iPad)</span>
+            </button>
+            <button type="button" class="tab-btn" data-target="desktop-guide" role="tab" aria-selected="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              <span>Desktop (PC &amp; Mac)</span>
+            </button>
+          </div>
+
+          <!-- Android Panel -->
+          <div class="tab-panel active" id="android-guide">
+            <div class="install-guide-grid">
+              <div class="steps-column">
+                <ol class="install-steps-list">
+                  <li class="install-step-item">
+                    <span class="step-number">1</span>
+                    <div class="step-details">
+                      <h4>Open in Chrome for Android</h4>
+                      <p>Navigate to <code>https://fun-photos.github.io/photo-background/</code> on your Android smartphone or tablet.</p>
+                    </div>
+                  </li>
+                  <li class="install-step-item">
+                    <span class="step-number">2</span>
+                    <div class="step-details">
+                      <h4>Tap "Install App" or Menu</h4>
+                      <p>Tap the automated install banner, or tap the three dots menu (⋮) and select <strong>"Install app"</strong> / <strong>"Add to Home screen"</strong>.</p>
+                    </div>
+                  </li>
+                  <li class="install-step-item">
+                    <span class="step-number">3</span>
+                    <div class="step-details">
+                      <h4>Launch Fullscreen &amp; Offline</h4>
+                      <p>The app installs as a native WebAPK with full camera permissions, hardware acceleration, and offline caching.</p>
+                    </div>
+                  </li>
+                </ol>
+                <div class="pill-badge" style="margin-top: 0.5rem;">
+                  <span>Google Play TWA Package: <code>com.funphotos.background</code></span>
+                </div>
+              </div>
+
+              <div class="install-action-box">
+                <div class="action-box-title">Launch Studio on Android</div>
+                <p class="action-box-desc">Tap below to open the studio or directly activate camera capture mode:</p>
+                <div class="direct-launch-btns">
+                  <a href="https://fun-photos.github.io/photo-background/" class="btn btn-primary" id="android-open-studio-btn">
+                    <span>Open Web Studio</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  </a>
+                  <a href="https://fun-photos.github.io/photo-background/?action=camera" class="btn btn-secondary" id="android-open-camera-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    <span>Instant Camera Mode</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- iOS Panel -->
+          <div class="tab-panel" id="ios-guide">
+            <div class="install-guide-grid">
+              <div class="steps-column">
+                <ol class="install-steps-list">
+                  <li class="install-step-item">
+                    <span class="step-number">1</span>
+                    <div class="step-details">
+                      <h4>Open in Safari on iPhone or iPad</h4>
+                      <p>Open <code>https://fun-photos.github.io/photo-background/</code> in the default Safari browser.</p>
+                    </div>
+                  </li>
+                  <li class="install-step-item">
+                    <span class="step-number">2</span>
+                    <div class="step-details">
+                      <h4>Tap the Share Button</h4>
+                      <p>Tap the <strong>Share</strong> button (box with an upward arrow) in the toolbar at the bottom of the screen.</p>
+                    </div>
+                  </li>
+                  <li class="install-step-item">
+                    <span class="step-number">3</span>
+                    <div class="step-details">
+                      <h4>Select "Add to Home Screen"</h4>
+                      <p>Scroll down and tap <strong>"Add to Home Screen"</strong>, then tap <strong>"Add"</strong> in the top-right corner.</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="install-action-box">
+                <div class="action-box-title">Launch on iOS</div>
+                <p class="action-box-desc">Enjoy full-screen standalone booth mode without Safari browser address bars:</p>
+                <div class="direct-launch-btns">
+                  <a href="https://fun-photos.github.io/photo-background/" class="btn btn-primary" id="ios-open-studio-btn">
+                    <span>Open Web Studio</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  </a>
+                  <button type="button" class="btn btn-secondary copy-link-btn" data-url="https://fun-photos.github.io/photo-background/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copy Link to Share</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desktop Panel -->
+          <div class="tab-panel" id="desktop-guide">
+            <div class="install-guide-grid">
+              <div class="steps-column">
+                <ol class="install-steps-list">
+                  <li class="install-step-item">
+                    <span class="step-number">1</span>
+                    <div class="step-details">
+                      <h4>Open in Chrome, Edge, or Brave</h4>
+                      <p>Navigate to <code>https://fun-photos.github.io/photo-background/</code> on Windows, macOS, or Linux.</p>
+                    </div>
+                  </li>
+                  <li class="install-step-item">
+                    <span class="step-number">2</span>
+                    <div class="step-details">
+                      <h4>Click the Install Icon</h4>
+                      <p>In the browser address bar, click the <strong>Install</strong> icon (computer with down arrow) or select <em>Menu &rarr; Install Fun Photos</em>.</p>
+                    </div>
+                  </li>
+                  <li class="install-step-item">
+                    <span class="step-number">3</span>
+                    <div class="step-details">
+                      <h4>Run in Dedicated Window</h4>
+                      <p>Enjoy keyboard shortcuts, drag-and-drop photo importing, high-resolution printing, and kiosk display.</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+
+              <div class="install-action-box">
+                <div class="action-box-title">Launch Desktop Kiosk</div>
+                <p class="action-box-desc">Access the studio directly in your desktop browser:</p>
+                <div class="direct-launch-btns">
+                  <a href="https://fun-photos.github.io/photo-background/" class="btn btn-primary" id="desktop-open-studio-btn">
+                    <span>Open Web Studio</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  </a>
+                  <a href="https://github.com/Fun-Photos/photo-background" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <span>View Architecture Guide</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy Comparison -->
+    <section class="section" id="privacy">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-subtitle">Zero Cloud Uploads</div>
+          <h2 class="section-title">Why Privacy-First Matters for Event Photography.</h2>
+          <p class="section-desc">
+            Traditional photo booths transmit sensitive customer faces and biometric portraits to remote cloud servers. Fun Photos handles everything right on the client device.
+          </p>
+        </div>
+
+        <div class="privacy-table-container">
+          <table class="privacy-table">
+            <thead>
+              <tr>
+                <th>Feature / Guarantee</th>
+                <th>Fun Photos (PWA / TWA)</th>
+                <th>Traditional Cloud Photo Booths</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Image Processing Location</strong></td>
+                <td><span class="check-icon">✓</span> 100% Local Browser Canvas</td>
+                <td><span class="cross-icon">✗</span> Remote Third-Party Servers</td>
+              </tr>
+              <tr>
+                <td><strong>Customer Photo Retention</strong></td>
+                <td><span class="check-icon">✓</span> Never Uploaded or Stored Remotely</td>
+                <td><span class="cross-icon">✗</span> Retained in Cloud Databases</td>
+              </tr>
+              <tr>
+                <td><strong>GDPR / CCPA / Biometric Compliance</strong></td>
+                <td><span class="check-icon">✓</span> Built-in Zero-Knowledge Privacy</td>
+                <td><span class="cross-icon">✗</span> Requires Complex Data Processing Agreements</td>
+              </tr>
+              <tr>
+                <td><strong>Offline Operation at Festivals</strong></td>
+                <td><span class="check-icon">✓</span> Fully Functional Without Cellular/Wi-Fi</td>
+                <td><span class="cross-icon">✗</span> Breaks Completely During Network Drops</td>
+              </tr>
+              <tr>
+                <td><strong>Rendering Speed &amp; Latency</strong></td>
+                <td><span class="check-icon">✓</span> Instantaneous 60fps Client Composition</td>
+                <td><span class="cross-icon">✗</span> 3-8s Upload and Download Latency</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture & About Section -->
+    <section class="section" id="about" style="background-color: var(--bg-surface);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-subtitle">Open Architecture</div>
+          <h2 class="section-title">Powered by Modern Web Technologies.</h2>
+          <p class="section-desc">
+            Fun Photos is engineered as an open, modular Progressive Web App built with Angular 20 and modern browser APIs.
+          </p>
+        </div>
+
+        <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+          <div class="feature-card">
+            <h3 class="feature-title" style="color: #dd0031;">Angular 20+</h3>
+            <p class="feature-text">Standalone component architecture, reactive signals, typed forms, and modern Angular Build tooling.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3 class="feature-title" style="color: #3178c6;">TypeScript 5.8+</h3>
+            <p class="feature-text">Strict type safety, decoupled extractor interfaces, and comprehensive Jasmine unit test coverage.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3 class="feature-title" style="color: #5A0FC8;">Service Workers</h3>
+            <p class="feature-text">Offline-first asset caching, instant load times, and standalone app manifest integration.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3 class="feature-title" style="color: #06b6d4;">Hardware Canvas 2D</h3>
+            <p class="feature-text">Direct GPU-accelerated alpha blending, affine transformations, and high-fidelity 300 DPI image exports.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-logo" style="margin-bottom: 0.75rem;">
+            <img src="assets/icons/icon.svg" alt="Fun Photos Logo" class="brand-icon" width="36" height="36">
+            <span>Fun<span class="gradient-text">Photos</span></span>
+          </div>
+          <p>
+            Privacy-first photo booth background replacement, print export, and novelty merchandise studio for creators and event operators.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Studio Apps</h4>
+          <ul>
+            <li><a href="https://fun-photos.github.io/photo-background/">Launch Web Studio</a></li>
+            <li><a href="https://fun-photos.github.io/photo-background/?action=camera">Instant Camera Mode</a></li>
+            <li><a href="#install">PWA Installation</a></li>
+            <li><a href="#simulator">Backdrop Simulator</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://github.com/Fun-Photos/photo-background" target="_blank" rel="noopener noreferrer">Studio Repository</a></li>
+            <li><a href="https://github.com/Fun-Photos/Fun-Photos.github.io" target="_blank" rel="noopener noreferrer">Portal Repository</a></li>
+            <li><a href="https://fun-photos.github.io/photo-background/about">About the Project</a></li>
+            <li><a href="https://fun-photos.github.io/photo-background/support">Customer Support</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal &amp; Privacy</h4>
+          <ul>
+            <li><a href="https://fun-photos.github.io/photo-background/privacy-policy">Privacy Policy</a></li>
+            <li><a href="https://github.com/Fun-Photos/photo-background/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a></li>
+            <li><a href="#privacy">Zero-Cloud Guarantee</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Fun Photos. All rights reserved. Built with Angular 20 and modern web standards.</div>
+        <div style="display: flex; gap: 1rem;">
+          <a href="https://fun-photos.github.io/photo-background/">Photo Studio</a>
+          <span>&bull;</span>
+          <a href="https://github.com/Fun-Photos" target="_blank" rel="noopener noreferrer">GitHub Org</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
 </html>

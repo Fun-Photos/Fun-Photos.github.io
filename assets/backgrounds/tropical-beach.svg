@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdba74"/>
+      <stop offset="35%" stop-color="#f43f5e"/>
+      <stop offset="70%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <linearGradient id="seaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="60%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#0c4a6e"/>
+    </linearGradient>
+    <linearGradient id="sandGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="70%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1920" height="650" fill="url(#skyGrad)"/>
+  <!-- Sun -->
+  <circle cx="960" cy="520" r="140" fill="url(#sun)"/>
+  <!-- Sea -->
+  <rect y="600" width="1920" height="260" fill="url(#seaGrad)"/>
+  <!-- Water Reflection -->
+  <ellipse cx="960" cy="620" rx="300" ry="15" fill="#fef08a" opacity="0.4"/>
+  <ellipse cx="960" cy="650" rx="200" ry="10" fill="#fef08a" opacity="0.3"/>
+  <!-- Sandy Beach -->
+  <path d="M 0 820 Q 960 760 1920 840 L 1920 1080 L 0 1080 Z" fill="url(#sandGrad)"/>
+
+  <!-- Palm Tree Silhouettes -->
+  <path d="M 200 950 Q 240 650 380 400 Q 360 650 250 950 Z" fill="#0f172a"/>
+  <!-- Palm Fronds -->
+  <path d="M 380 400 Q 220 320 120 400 Q 250 440 380 400 Z" fill="#0f172a"/>
+  <path d="M 380 400 Q 320 220 400 120 Q 420 280 380 400 Z" fill="#0f172a"/>
+  <path d="M 380 400 Q 520 280 620 360 Q 480 420 380 400 Z" fill="#0f172a"/>
+  <path d="M 380 400 Q 560 440 680 520 Q 500 520 380 400 Z" fill="#0f172a"/>
+</svg>
