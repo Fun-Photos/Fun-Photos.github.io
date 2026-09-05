@@ -1,0 +1,123 @@
+{
+  "configVersion": 1,
+  "timestamp": 1788579855170,
+  "index": "/photo-background/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/photo-background/chunk-4DP4C2ZA.js",
+        "/photo-background/chunk-7DX7WSUF.js",
+        "/photo-background/chunk-AJOSNIVD.js",
+        "/photo-background/chunk-BOSSBAWH.js",
+        "/photo-background/chunk-C5ABK4O2.js",
+        "/photo-background/chunk-EJQ7V4PS.js",
+        "/photo-background/chunk-JAYZ4RQI.js",
+        "/photo-background/chunk-KJVODKSE.js",
+        "/photo-background/chunk-LYKAXCY2.js",
+        "/photo-background/chunk-M6R6MTGS.js",
+        "/photo-background/chunk-MPRC24CF.js",
+        "/photo-background/chunk-XTOHOWV4.js",
+        "/photo-background/chunk-ZDSMTBGA.js",
+        "/photo-background/favicon.ico",
+        "/photo-background/index.html",
+        "/photo-background/main-V6S2EIGF.js",
+        "/photo-background/manifest.webmanifest",
+        "/photo-background/polyfills-5CFQRCPP.js",
+        "/photo-background/styles-PIIJC7YT.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/photo-background/backgrounds/cyber-neon.svg",
+        "/photo-background/backgrounds/gradient-sunset.svg",
+        "/photo-background/backgrounds/magic-forest.svg",
+        "/photo-background/backgrounds/party-confetti.svg",
+        "/photo-background/backgrounds/solid-chroma-green.svg",
+        "/photo-background/backgrounds/studio-classic.svg",
+        "/photo-background/backgrounds/studio-pure-white.svg",
+        "/photo-background/backgrounds/tropical-beach.svg",
+        "/photo-background/icons/icon-128x128.png",
+        "/photo-background/icons/icon-144x144.png",
+        "/photo-background/icons/icon-152x152.png",
+        "/photo-background/icons/icon-192x192.png",
+        "/photo-background/icons/icon-384x384.png",
+        "/photo-background/icons/icon-512x512.png",
+        "/photo-background/icons/icon-72x72.png",
+        "/photo-background/icons/icon-96x96.png",
+        "/photo-background/icons/icon.svg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/photo-background/backgrounds/cyber-neon.svg": "8fc7b0d353b8479768aec83d42159580640775f4",
+    "/photo-background/backgrounds/gradient-sunset.svg": "c73977010fbb0b778902babbfa0c9ba7e54faa60",
+    "/photo-background/backgrounds/magic-forest.svg": "ca0aa0917381f69a450eb135d082f0546c0e19ea",
+    "/photo-background/backgrounds/party-confetti.svg": "afc66e1f69a9be47bb077f23d5b5754262247c8f",
+    "/photo-background/backgrounds/solid-chroma-green.svg": "7364108e4e8dae190329c087a36e54af22c2f846",
+    "/photo-background/backgrounds/studio-classic.svg": "ce9022dee01b7bf57f64b0503d70b7a25e01b117",
+    "/photo-background/backgrounds/studio-pure-white.svg": "3f35fe81ae708cea349159dcf234ad1779941c82",
+    "/photo-background/backgrounds/tropical-beach.svg": "cfd481ce474ca004301b269917a8318dc61913c8",
+    "/photo-background/chunk-4DP4C2ZA.js": "7bb5090c9bb17f041786c99177f300a04b684e6b",
+    "/photo-background/chunk-7DX7WSUF.js": "4ffbabe6d8e1b4f667da3862a4d0704b901d7a77",
+    "/photo-background/chunk-AJOSNIVD.js": "fe452419e2c0df438b996a8d2b8534977f64791c",
+    "/photo-background/chunk-BOSSBAWH.js": "43c5ddcfa64e18e7bc051301bdfa5d4dd28f4bc9",
+    "/photo-background/chunk-C5ABK4O2.js": "a4f50d61701785bfcdd8fb9aca3767bcb4b88b3b",
+    "/photo-background/chunk-EJQ7V4PS.js": "bddaa3f85ca8eb25c04e4a3e086558e4df4b6fe6",
+    "/photo-background/chunk-JAYZ4RQI.js": "1bb46cdbe5a1690980acd416a9c56828202c77b9",
+    "/photo-background/chunk-KJVODKSE.js": "4a9eb5bfadd7afc45aa267c4c51133831defa188",
+    "/photo-background/chunk-LYKAXCY2.js": "b714af7461ecd104b4e189e25e11060dbd3f590f",
+    "/photo-background/chunk-M6R6MTGS.js": "bac729ba5a865fc02f557be93c36139a42407bbd",
+    "/photo-background/chunk-MPRC24CF.js": "64aaa5570481b60db32c7ff2abf9aae43f7c28b7",
+    "/photo-background/chunk-XTOHOWV4.js": "34ba26e8b20d35ef441f53288cb53663d42452ed",
+    "/photo-background/chunk-ZDSMTBGA.js": "034abba6d9495fa73954df25aa869f106f1af220",
+    "/photo-background/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/photo-background/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/photo-background/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/photo-background/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/photo-background/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/photo-background/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/photo-background/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/photo-background/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/photo-background/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/photo-background/icons/icon.svg": "a16096399d4ed98d90c53592f64847b10633a2ce",
+    "/photo-background/index.html": "e3f1a86cad142c00b20ebefb0bc2be6577c44825",
+    "/photo-background/main-V6S2EIGF.js": "a0bb14c2d4e45a900277972ba1841e65af7e0fd0",
+    "/photo-background/manifest.webmanifest": "a0a7f7d6c3d4a1b3facfad14d62ef2dc6571313d",
+    "/photo-background/polyfills-5CFQRCPP.js": "f2241e9a25858f895ce299d15f6f22e849e2fd72",
+    "/photo-background/styles-PIIJC7YT.css": "9c43e6b142d52347b7902d0ec4d94f3a3d719642"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
