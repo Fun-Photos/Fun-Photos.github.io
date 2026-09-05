@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="forestSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#022c22"/>
+      <stop offset="50%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#065f46"/>
+    </linearGradient>
+    <radialGradient id="sunBeam" cx="30%" cy="10%" r="70%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.6"/>
+      <stop offset="40%" stop-color="#a7f3d0" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#064e3b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="grassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#forestSky)"/>
+  <rect width="1920" height="1080" fill="url(#sunBeam)"/>
+
+  <!-- Distant Trees -->
+  <polygon points="100,800 250,300 400,800" fill="#064e3b" opacity="0.7"/>
+  <polygon points="300,800 480,250 660,800" fill="#047857" opacity="0.6"/>
+  <polygon points="600,800 780,280 960,800" fill="#065f46" opacity="0.7"/>
+  <polygon points="900,800 1100,220 1300,800" fill="#047857" opacity="0.6"/>
+  <polygon points="1200,800 1400,320 1600,800" fill="#064e3b" opacity="0.7"/>
+  <polygon points="1500,800 1700,270 1900,800" fill="#065f46" opacity="0.6"/>
+
+  <!-- Ground -->
+  <path d="M 0 780 Q 960 740 1920 780 L 1920 1080 L 0 1080 Z" fill="url(#grassGrad)"/>
+
+  <!-- Bokeh orbs -->
+  <circle cx="450" cy="350" r="45" fill="#fef08a" opacity="0.25"/>
+  <circle cx="850" cy="420" r="60" fill="#a7f3d0" opacity="0.2"/>
+  <circle cx="1200" cy="280" r="35" fill="#fef08a" opacity="0.3"/>
+  <circle cx="1550" cy="480" r="50" fill="#a7f3d0" opacity="0.2"/>
+  <circle cx="700" cy="600" r="30" fill="#fef08a" opacity="0.3"/>
+  <circle cx="1400" cy="620" r="40" fill="#a7f3d0" opacity="0.25"/>
+</svg>

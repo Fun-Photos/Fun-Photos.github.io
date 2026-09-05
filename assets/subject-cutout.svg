@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650" width="500" height="650">
+  <defs>
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fed7aa"/>
+      <stop offset="100%" stop-color="#fba868"/>
+    </linearGradient>
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#331d13"/>
+      <stop offset="100%" stop-color="#190e09"/>
+    </linearGradient>
+    <linearGradient id="jacketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="50%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+    <linearGradient id="glassesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Hair Back Layer -->
+  <path d="M 170 170 C 120 220 110 320 130 420 C 150 370 170 300 180 250 Z" fill="url(#hairGrad)"/>
+  <path d="M 330 170 C 380 220 390 320 370 420 C 350 370 330 300 320 250 Z" fill="url(#hairGrad)"/>
+
+  <!-- Neck -->
+  <path d="M 215 310 L 215 400 C 235 415 265 415 285 400 L 285 310 Z" fill="#fba868"/>
+  <path d="M 215 310 Q 250 340 285 310 L 285 330 Q 250 360 215 330 Z" fill="#ea8b42" opacity="0.4"/>
+
+  <!-- Torso & Trendy Denim / Leather Jacket -->
+  <path d="M 120 450 C 120 400 170 380 210 370 L 230 460 L 250 490 L 270 460 L 290 370 C 330 380 380 400 380 450 L 410 650 L 90 650 Z" fill="url(#jacketGrad)"/>
+  
+  <!-- T-shirt collar -->
+  <path d="M 215 385 Q 250 425 285 385 L 275 440 Q 250 460 225 440 Z" fill="#ffffff"/>
+  <path d="M 225 440 Q 250 460 275 440 L 265 520 Q 250 535 235 520 Z" fill="#f1f5f9"/>
+
+  <!-- Jacket Lapels & Details -->
+  <path d="M 190 375 L 235 480 L 195 560 L 150 460 Z" fill="#3730a3"/>
+  <path d="M 310 375 L 265 480 L 305 560 L 350 460 Z" fill="#3730a3"/>
+  <circle cx="215" cy="500" r="4" fill="#a5b4fc"/>
+  <circle cx="285" cy="500" r="4" fill="#a5b4fc"/>
+
+  <!-- Head / Face -->
+  <path d="M 175 220 C 175 140 325 140 325 220 C 325 290 295 335 250 335 C 205 335 175 290 175 220 Z" fill="url(#skinGrad)"/>
+
+  <!-- Ears -->
+  <ellipse cx="170" cy="225" rx="14" ry="24" fill="#fba868"/>
+  <ellipse cx="330" cy="225" rx="14" ry="24" fill="#fba868"/>
+  <circle cx="170" cy="240" r="5" fill="#facc15"/>
+  <circle cx="330" cy="240" r="5" fill="#facc15"/>
+
+  <!-- Hair Top & Styling -->
+  <path d="M 160 190 C 150 110 220 70 270 75 C 330 80 350 120 340 180 C 320 130 280 120 250 130 C 220 140 180 140 160 190 Z" fill="url(#hairGrad)"/>
+  <path d="M 170 170 C 200 130 260 140 270 170 C 240 160 210 165 190 180 Z" fill="#45271a"/>
+
+  <!-- Eyebrows -->
+  <path d="M 195 185 Q 215 175 235 185" stroke="#2d1a10" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 265 185 Q 285 175 305 185" stroke="#2d1a10" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <!-- Trendy Festival Mirrored Sunglasses -->
+  <g filter="url(#softGlow)">
+    <!-- Bridge -->
+    <path d="M 238 205 Q 250 200 262 205" stroke="#0f172a" stroke-width="5" fill="none"/>
+    <!-- Left Lens -->
+    <rect x="185" y="195" width="52" height="38" rx="12" fill="url(#glassesGrad)" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 192 202 L 215 202" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <!-- Right Lens -->
+    <rect x="263" y="195" width="52" height="38" rx="12" fill="url(#glassesGrad)" stroke="#0f172a" stroke-width="4"/>
+    <path d="M 270 202 L 293 202" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+  </g>
+
+  <!-- Nose -->
+  <path d="M 248 235 L 244 255 L 256 255" stroke="#ea8b42" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- Confident Smile -->
+  <path d="M 225 275 Q 250 300 275 275" stroke="#dc2626" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 230 276 Q 250 292 270 276 Z" fill="#ffffff"/>
+
+  <!-- Subtle Studio Rim Light -->
+  <path d="M 165 210 C 160 130 230 80 275 80" stroke="rgba(255,255,255,0.4)" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

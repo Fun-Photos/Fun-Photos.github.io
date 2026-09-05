@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="spotlight" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#3b4252"/>
+      <stop offset="60%" stop-color="#2e3440"/>
+      <stop offset="100%" stop-color="#14171d"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e222a"/>
+      <stop offset="100%" stop-color="#0e1014"/>
+    </linearGradient>
+  </defs>
+  <!-- Studio Wall Backdrop -->
+  <rect width="1920" height="850" fill="url(#spotlight)"/>
+  <!-- Studio Floor Horizon -->
+  <rect y="850" width="1920" height="230" fill="url(#floor)"/>
+  <!-- Floor reflection blend -->
+  <ellipse cx="960" cy="850" rx="600" ry="80" fill="#3b4252" opacity="0.15"/>
+</svg>
