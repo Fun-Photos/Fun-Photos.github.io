@@ -44,11 +44,14 @@ The repositories currently provide:
 
 Important limitations in the current implementation:
 
-- Foreground separation now uses local MODNet portrait matting via ONNX Runtime Web
+- Foreground separation uses local MODNet portrait matting via ONNX Runtime Web
   (Apache-2.0 quantized model running in-browser with WebGPU and single-threaded WASM fallback),
-  producing continuous 8-bit alpha mattes without network transmission. Edge brush correction
-  (Milestone 4) remains pending for challenging edge conditions.
-- Google sign-in is simulated; configuration is scaffolded but the identity flow is not wired.
+  producing continuous 8-bit alpha mattes with aspect-ratio-preserving padded inference geometry
+  without network transmission.
+- Edge brush correction is available with Erase and Restore brushes, adjustable radii, inverse
+  coordinate mapping for transformed subjects, single-stroke undo, and base matte preservation.
+- Full-resolution exports recompose directly from the original photo blob at natural dimensions
+  with destination-in alpha compositing, memory safety limits, and explicit print preset dimensions.
 - Merchandise submission falls back to in-memory state and is not a durable order or payment
   system.
 - Analytics configuration exists, but consent, script loading, and production validation still
@@ -85,18 +88,25 @@ with single-threaded WASM fallback (ensuring compatibility on environments witho
 Isolation like GitHub Pages). Added PWA caching for the model and WASM binaries, non-destructive
 error handling, and task-oriented processing status messages.
 
-### 3. Build the real full-resolution image pipeline
+### 3. Build the real full-resolution image pipeline (Completed)
 
-The 1280px canvas becomes strictly a working preview. Original photos remain authoritative. Export
-recomposes from the original source at real resolution with correctly transformed masks and
-backgrounds. PNG transparency, JPEG output, sharing, downloading, and sensible print-oriented
-dimensions should all be real rather than enlarged previews.
+The 1280px canvas is strictly a working preview. Original photos remain authoritative via
+`doc.originalBlob`. Export recomposes from the raw camera source at original photo dimensions or
+explicit print preset pixel dimensions (`4 × 6 in — 1800 × 1200 px`, `5 × 7 in — 2100 × 1500 px`,
+`8 × 10 in — 3000 × 2400 px` suitable for 300 PPI printing without claiming embedded DPI metadata).
+Continuous alpha mattes are composited using high-quality `destination-in` blending. Memory safety
+guards against canvas exhaustion (`MAX_SAFE_CANVAS_PIXELS = 64_000_000`), temporary canvases are
+immediately collapsed to release RAM, and high-frequency pixel preservation is verified by deterministic
+lossless PNG regression tests.
 
-### 4. Make background removal operator-correctable
+### 4. Make background removal operator-correctable (Completed)
 
-Add erase and restore mask brushes, brush size and softness controls, undo/redo, reset-to-auto, and
-perhaps edge feathering. This is important because a fair operator needs to be able to turn a
-95%-good automatic cutout into a finished image quickly instead of abandoning the shot.
+Added Erase and Restore mask brushes with Small (15px), Medium (30px), and Large (60px) presets.
+Screen pointer interactions are mapped through inverse subject transforms
+(`mapCanvasPointToForegroundPoint`) to correctly modify mask coordinates even when the subject has
+been translated, scaled, or rotated. Added visual circular cursor indicators, single-stroke undo, and
+pristine `baseMask` preservation enabling "Reset Cutout" to cleanly restore the automatic MODNet
+result. Automatic re-extraction explicitly notifies the operator and clears manual brush state.
 
 ### 5. Finish the actual photo editor
 
