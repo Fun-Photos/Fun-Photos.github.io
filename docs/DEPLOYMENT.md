@@ -61,19 +61,20 @@ its own `docs/` artifact to GitHub Pages. That duplicates production ownership. 
 is retired or converted to validation-only, treat it as legacy/ambiguous automation and confirm
 which workflow produced a live release. Resolving this is the first roadmap priority.
 
-### Known deep-link failure
+### Deep-link resolution
 
-A live check on September 5, 2026 returned HTTP 200 for the portal root, application root, and
-application manifest, but HTTP 404 for a direct request to `/photo-background/about`. GitHub Pages
-is using the organization site's root-level not-found behavior; the generated
-`photo-background/404.html` is not sufficient as a nested SPA fallback in this assembled-site
-deployment.
+Previously, a direct request to `/photo-background/about` returned HTTP 404 because GitHub Pages used
+the organization site's root-level not-found behavior. The issue has been resolved with a dual approach:
 
-Client-side navigation after loading the app shell may still work, but bookmarks, refreshes, and
-external links to Angular routes are not reliable until a combined-site fallback is implemented.
-Candidate approaches include a root `404.html` that dispatches application paths safely, generated
-HTML entry points for known routes, or hash-based routing. Select and test an approach against both
-unknown portal paths and all application routes before calling deep links supported.
+1. **Static route entry points**: During build (`scripts/move-build-files.js`), static HTML entry points
+   are automatically generated for all known Angular routes (`editor/index.html`, `merchandise/index.html`,
+   `about/index.html`, `privacy-policy/index.html`, `support/index.html`). Direct requests, bookmarks, and
+   browser reloads for any known route return genuine HTTP 200 responses with the correct
+   `<base href="/photo-background/">` context.
+2. **Root `404.html` dispatcher**: A root-level `404.html` script in `Fun-Photos.github.io` captures any
+   unmatched `/photo-background/*` subpaths and seamlessly redirects the client to the PWA shell while
+   preserving the requested path, query parameters, and hash fragment. For non-application paths, it
+   renders a branded portal 404 navigation screen.
 
 The `sync:portal` script assumes the repositories are sibling directories with these exact names:
 
