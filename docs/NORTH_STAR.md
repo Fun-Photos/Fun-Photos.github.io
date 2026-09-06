@@ -44,8 +44,10 @@ The repositories currently provide:
 
 Important limitations in the current implementation:
 
-- Foreground separation uses a configurable demonstration extractor, not production-quality
-  person/subject segmentation.
+- Foreground separation now uses local MODNet portrait matting via ONNX Runtime Web
+  (Apache-2.0 quantized model running in-browser with WebGPU and single-threaded WASM fallback),
+  producing continuous 8-bit alpha mattes without network transmission. Edge brush correction
+  (Milestone 4) remains pending for challenging edge conditions.
 - Google sign-in is simulated; configuration is scaffolded but the identity flow is not wired.
 - Merchandise submission falls back to in-memory state and is not a durable order or payment
   system.
@@ -75,11 +77,13 @@ For the current repositories, mechanical soundness also includes making the port
 only production Pages deployer, making cross-repository artifact synchronization exact, and making
 each deployed artifact traceable to its application source commit.
 
-### 2. Implement production-quality local background removal
+### 2. Implement production-quality local background removal (Completed)
 
-Keep the existing `ForegroundExtractor` boundary, evaluate realistic local/browser models, select
-one based on actual portrait quality and device performance, and implement it cleanly. This includes
-model download, cache and loading UX, plus reasonable fallbacks.
+Kept the existing `ForegroundExtractor` boundary, evaluated in-browser matting models, and
+implemented local portrait matting with quantized MODNet via ONNX Runtime Web. Configured WebGPU
+with single-threaded WASM fallback (ensuring compatibility on environments without Cross-Origin
+Isolation like GitHub Pages). Added PWA caching for the model and WASM binaries, non-destructive
+error handling, and task-oriented processing status messages.
 
 ### 3. Build the real full-resolution image pipeline
 
