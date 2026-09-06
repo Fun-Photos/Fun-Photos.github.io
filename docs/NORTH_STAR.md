@@ -62,90 +62,99 @@ Important limitations in the current implementation:
 
 ## Roadmap
 
-The roadmap is ordered by dependency and risk, not by promised calendar dates.
+The roadmap is ordered. Later milestones must not be used to avoid the quality, privacy, and
+reliability work in earlier milestones.
 
-### Now: make releases boring
+### 1. Make the current prototype truthful and mechanically sound
 
-Outcome: one observable, reversible path publishes the combined site.
+Fix GitHub Pages routing, eliminate fake-success behavior, correct aspirational product/privacy
+copy, self-host assets needed offline, and establish good test fixtures. Keep customer photos
+ephemeral by default.
 
-- Choose the portal repository as the only production Pages deployer and retire or convert the
-  source repository's direct deploy workflow.
-- Make artifact synchronization exact: remove files no longer produced, preserve `.nojekyll`, and
-  fail when the expected sibling repository or build output is missing.
-- Add an automated check that the source `docs/` output and portal `photo-background/` artifact
-  match.
-- Record source commit/version metadata in releases so an artifact can be traced and rolled back.
-- Add smoke checks for the portal, app shell, a deep SPA route, manifest, hashed assets, and service
-  worker update behavior under `/photo-background/`.
-- Implement a combined-site SPA fallback strategy (for example, a site-root 404 dispatcher or
-  generated route entry points) without breaking unknown portal URLs.
-- Fix documentation encoding and replace machine-local links in the source README.
+For the current repositories, mechanical soundness also includes making the portal repository the
+only production Pages deployer, making cross-repository artifact synchronization exact, and making
+each deployed artifact traceable to its application source commit.
 
-Exit criteria: a contributor can follow the deployment runbook from clean checkouts, CI has one
-production deploy owner, all smoke checks pass, and rollback is documented and tested.
+### 2. Implement production-quality local background removal
 
-### Next: deliver trustworthy background removal
+Keep the existing `ForegroundExtractor` boundary, evaluate realistic local/browser models, select
+one based on actual portrait quality and device performance, and implement it cleanly. This includes
+model download, cache and loading UX, plus reasonable fallbacks.
 
-Outcome: ordinary portraits produce a visibly useful cutout fully in-browser.
+### 3. Build the real full-resolution image pipeline
 
-- Select and integrate an on-device segmentation implementation behind `ForegroundExtractor`.
-- Keep the current extractor as an explicitly labeled demo/fallback mode.
-- Add representative fixtures and quality/performance benchmarks for hair, glasses, multiple skin
-  tones, mobility devices, varied lighting, and common event backgrounds.
-- Define supported device/browser memory limits and degrade gracefully on low-end devices.
-- Add mask refinement controls only where they materially improve real outputs.
+The 1280px canvas becomes strictly a working preview. Original photos remain authoritative. Export
+recomposes from the original source at real resolution with correctly transformed masks and
+backgrounds. PNG transparency, JPEG output, sharing, downloading, and sensible print-oriented
+dimensions should all be real rather than enlarged previews.
 
-Exit criteria: agreed fixture-quality thresholds pass on the supported device matrix without
-uploading source photos.
+### 4. Make background removal operator-correctable
 
-### Next: harden the event workflow
+Add erase and restore mask brushes, brush size and softness controls, undo/redo, reset-to-auto, and
+perhaps edge feathering. This is important because a fair operator needs to be able to turn a
+95%-good automatic cutout into a finished image quickly instead of abandoning the shot.
 
-Outcome: an operator can run repeated sessions quickly and recover from mistakes or interruptions.
+### 5. Finish the actual photo editor
 
-- Test repeated capture-edit-export cycles for leaks, stale state, orientation errors, and camera
-  permission changes.
-- Add end-to-end coverage for capture/import, background selection, transform, transparent and
-  composited export, sharing fallbacks, offline launch, and PWA update prompts.
-- Establish measurable targets for time-to-editor, preview interaction, export duration, and crash
-  rate.
-- Improve accessibility, keyboard operation, screen-reader labels, focus handling, and touch target
-  sizing.
-- Define session reset and customer-data retention behavior suitable for shared event devices.
+Complete the background library, uploaded backgrounds, persistent custom backgrounds, crop/aspect
+presets, foreground move/scale/rotation, background positioning, transparent-background mode,
+useful before/after comparison, and appropriate image adjustments. Modest brightness, contrast,
+and saturation controls are reasonable; the goal is not to become Photoshop.
 
-Exit criteria: the core loop passes automated and device smoke tests online and offline, with a
-clear way to reset between customers.
+### 6. Add the controlled-event workflows that fit the original Fun Photos business
 
-### Later: add accounts, telemetry, and commerce deliberately
+This is where chroma key becomes particularly valuable. A good green-screen keyer may actually
+outperform generic AI segmentation in the environment the business was designed around. After
+that, evaluate calibrated empty-backdrop subtraction and potentially hybrid masks. These should
+remain alternative `ForegroundExtractor` implementations rather than becoming special-case editor
+code.
 
-Outcome: optional connected features are secure, supportable, and do not compromise the local-first
-core.
+### 7. Make it genuinely offline and event-ready
 
-- Decide whether accounts are necessary; if so, implement real Google Identity Services with
-  server-verifiable sessions and explicit sign-out/session-expiry behavior.
-- Define consent, data minimization, retention, and opt-out requirements before enabling production
-  analytics.
-- Design a real order lifecycle, pricing authority, image-upload consent, payment handoff,
-  idempotency, status tracking, failure recovery, and customer support process.
-- Separate client-visible configuration from server secrets; no credential may be shipped in a web
-  bundle.
+Once installed and initialized, camera/import through processing, editing, and export should work
+without internet. Explicitly cache the segmentation model and bundled backgrounds. Test repeated
+sessions, dozens or hundreds of photos, memory cleanup, app suspension/resume, device rotation,
+camera switching, low-memory behavior, failed imports, interrupted operations, and recovery. Custom
+backgrounds and settings should persist. Customer photos should persist only when the user
+intentionally saves a draft.
 
-Exit criteria: threat modeling, privacy review, operational ownership, and failure handling are in
-place before connected features are described as production-ready.
+### 8. Polish the installed-PWA and mobile experience
 
-### Later: package for stores and dedicated venues
+Provide good touch targets, a responsive editor layout, correct orientation behavior, install and
+update handling, accessibility, share-sheet support, clipboard support where available, camera
+permission handling, graceful capability detection, and useful messaging when Safari, Firefox, or
+older devices lack an optimization such as WebGPU.
 
-Outcome: distribution expands without forking the product experience.
+### 9. Add serious automated and device testing
 
-- Decide between Trusted Web Activity and Capacitor based on required hardware integration.
-- Publish Digital Asset Links, finalize the application ID and signing ownership, generate store
-  assets, and complete policy declarations.
-- Validate camera, file access, sharing, installation, updates, and offline behavior in the chosen
-  wrapper.
-- Consider calibrated backdrop/chroma-key workflows only after the browser product's core loop is
-  reliable.
+Add unit tests for coordinate, mask, and render math; image-dimension guarantees; persistence; and
+extractors. Use Playwright for the complete user journey, fixture-based image comparisons where
+worthwhile, and a small explicit device/browser compatibility matrix. Most importantly, add a
+regression test that fails if a nominal 4032x3024 export secretly contains a 1280px source enlarged
+to that size.
 
-Exit criteria: the packaged app uses the same tested web release, has an owned signing/update
-process, and passes store review.
+### 10. Only after the product works: secondary systems
+
+Analytics, support integration, optional accounts, merchandise and fulfillment, and other network
+services can come afterward based on whether they serve a real need. Merchandise in particular
+should be treated as a separate backend and product workstream rather than something required to
+declare the editor finished.
+
+## Distribution milestone: Android / Google Play
+
+Begin Android distribution only after the ten product milestones above are complete and the
+installed PWA is proven on the supported device matrix.
+
+- Choose Trusted Web Activity or Capacitor based on demonstrated hardware and platform needs.
+- Publish Digital Asset Links, finalize the application ID and signing ownership, and establish a
+  durable signing and update process.
+- Generate the Android App Bundle and store assets, complete privacy and capability declarations,
+  and prepare the Play listing.
+- Validate camera and file access, sharing, installation, offline operation, suspension/resume, and
+  web-to-wrapper updates in the packaged application.
+
+Exit criteria: the Android package uses the same tested web release, preserves its local-first
+privacy behavior, has an owned signing/update process, and passes store review.
 
 ## Decision guide
 
