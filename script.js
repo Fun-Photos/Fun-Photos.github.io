@@ -1,11 +1,40 @@
 // Fun Photos Portal Interactive Scripts
 document.addEventListener('DOMContentLoaded', () => {
+  cleanupRootServiceWorkers();
   initThemeToggle();
   initBackdropSimulator();
   initInstallTabs();
   initCopyLinkButtons();
   initScrollSpy();
 });
+
+/**
+ * Safely unregisters any obsolete root-scope service worker so it cannot intercept
+ * or control the actual Angular PWA served under /photo-background/.
+ */
+function cleanupRootServiceWorkers() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (const reg of registrations) {
+        try {
+          const scopeUrl = new URL(reg.scope);
+          // If the scope is root '/' or not subpath /photo-background/, safely unregister it
+          if (scopeUrl.pathname === '/' || !scopeUrl.pathname.startsWith('/photo-background')) {
+            reg.unregister().then((unregistered) => {
+              if (unregistered) {
+                console.log('Unregistered obsolete portal service worker:', reg.scope);
+              }
+            });
+          }
+        } catch (e) {
+          console.warn('Error checking service worker registration scope:', e);
+        }
+      }
+    }).catch((err) => {
+      console.warn('Could not inspect service worker registrations:', err);
+    });
+  }
+}
 
 /**
  * Manages Dark/Light mode toggle with persistence and system-preference support.

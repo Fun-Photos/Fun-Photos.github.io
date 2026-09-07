@@ -20,6 +20,9 @@ This repository is the deployable GitHub Pages root for the combined Fun Photos 
   the sibling repository and regenerate/synchronize the directory.
 - Portal changes belong in the root-authored files and `assets/`. Keep links to the application
   rooted at `/photo-background/`.
+- The root portal is NOT a PWA. The `/photo-background/` application is the sole PWA. Do not add a
+  manifest or service worker to the repository root. A root unregistration routine in `script.js`
+  safely cleans up any legacy service worker registered at `/` scope.
 - Preserve `.nojekyll` at the repository root and in the generated application artifact.
 - Treat all client-side code and build configuration as public. Never add credentials or secrets.
 - Preserve unrelated working-tree changes. Do not replace a generated directory until its exact
@@ -64,8 +67,9 @@ For application releases:
   `/photo-background/` base href.
 - Confirm the manifest, service worker, icons, hashed assets, and direct SPA routes work under the
   subpath.
-- Treat the currently observed 404 on direct Angular routes as an unresolved deployment defect;
-  the nested application `404.html` is not a proven fallback for the combined site.
+- Static entry points (`editor/index.html`, `merchandise/index.html`, `about/index.html`,
+  `privacy-policy/index.html`, `support/index.html`) generated during build provide direct HTTP 200
+  responses for all known routes on GitHub Pages, backed by the root `404.html` dispatcher.
 - Review for stale generated assets and unintended client-visible configuration.
 - Follow the pre-release, post-deployment, and rollback checks in `docs/DEPLOYMENT.md`.
 
@@ -76,8 +80,11 @@ the public URLs were actually checked.
 
 - The portal repository owns static hosting and the assembled release, not Angular application
   implementation.
+- The portal repository is the single authoritative production deployer to GitHub Pages. The
+  source repository runs CI-only validation on its pull requests and `main` branch.
 - The application repository owns runtime code, tests, build configuration, and source assets, not
   the portal landing page.
 - Authentication, analytics, order processing, payments, and store packaging are incomplete or
   scaffolded. Describe them accurately and do not treat browser-side placeholders as production
   integrations.
+

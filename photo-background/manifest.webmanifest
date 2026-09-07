@@ -6,8 +6,8 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
-  "orientation": "portrait-primary",
-  "description": "Photo booth background replacement and custom novelty merchandise creator.",
+  "orientation": "any",
+  "description": "Offline-ready event photo production workstation with automatic local cutout and print preparation.",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

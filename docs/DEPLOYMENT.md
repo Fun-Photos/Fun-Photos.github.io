@@ -51,20 +51,21 @@ Both `photo-background/docs/` and `Fun-Photos.github.io/photo-background/` are g
 fix application behavior by editing bundled JavaScript, hashed CSS, `ngsw.json`, or generated HTML.
 Change the source or build scripts and regenerate the artifact.
 
-## Current automation and known ambiguity
+## Current automation and single production owner
 
-The portal workflow deploys the entire checkout whenever `main` changes. This is the workflow that
-publishes the combined portal and application.
+The portal workflow (`.github/workflows/deploy.yml`) deploys the entire checkout whenever `main`
+changes. This is the sole authoritative workflow that publishes the combined portal and application
+to GitHub Pages.
 
-The source repository also currently has `.github/workflows/deploy.yml`, which builds and deploys
-its own `docs/` artifact to GitHub Pages. That duplicates production ownership. Until that workflow
-is retired or converted to validation-only, treat it as legacy/ambiguous automation and confirm
-which workflow produced a live release. Resolving this is the first roadmap priority.
+The source repository's duplicate Pages deployment workflow has been retired and replaced with a
+validation-only CI workflow (`.github/workflows/ci.yml`) that runs tests and build checks on pull
+requests and `main` pushes without deploying.
 
 ### Deep-link resolution
 
-Previously, a direct request to `/photo-background/about` returned HTTP 404 because GitHub Pages used
-the organization site's root-level not-found behavior. The issue has been resolved with a dual approach:
+A direct request to `/photo-background/about` or other Angular routes previously returned HTTP 404
+because GitHub Pages used the organization site's root-level not-found behavior. The issue is
+resolved with a dual approach:
 
 1. **Static route entry points**: During build (`scripts/move-build-files.js`), static HTML entry points
    are automatically generated for all known Angular routes (`editor/index.html`, `merchandise/index.html`,
@@ -72,7 +73,7 @@ the organization site's root-level not-found behavior. The issue has been resolv
    browser reloads for any known route return genuine HTTP 200 responses with the correct
    `<base href="/photo-background/">` context.
 2. **Root `404.html` dispatcher**: A root-level `404.html` script in `Fun-Photos.github.io` captures any
-   unmatched `/photo-background/*` subpaths and seamlessly redirects the client to the PWA shell while
+   unmatched `/photo-background/*` subpaths and cleanly redirects the client to the PWA shell while
    preserving the requested path, query parameters, and hash fragment. For non-application paths, it
    renders a branded portal 404 navigation screen.
 
@@ -86,6 +87,7 @@ parent/
 
 It copies files with overwrite enabled, but it does not delete files that disappeared from the new
 build. Inspect the destination for stale hashed assets after every synchronization.
+
 
 ## Configuration
 
@@ -158,11 +160,11 @@ Validate at least:
 - The portal loads at `https://fun-photos.github.io/` and its launch links target
   `/photo-background/`.
 - The application shell, icons, background images, and hashed JavaScript/CSS load without 404s.
-- A direct request to `/photo-background/about`, `/photo-background/support`, and
-  `/photo-background/privacy-policy` returns HTTP 200 and renders the expected route. This is a
-  known failing check until the combined-site fallback is fixed.
+- Direct requests to `/photo-background/about`, `/photo-background/support`, and
+  `/photo-background/privacy-policy` return HTTP 200 and render the expected routes via static route
+  directories.
 - `manifest.webmanifest` uses a scope/start URL under `/photo-background/`, and installation works
-  on a supported browser.
+  on a supported browser. The portal root does not register a competing PWA.
 - The service worker registers under the application path, caches the expected release, and can
   update from the previous release.
 - Import, camera permission on a secure origin, background selection, editing, and at least one
@@ -183,15 +185,14 @@ because previously installed clients may hold either the failed or restored serv
 
 - **Root portal works, app assets 404:** verify the Angular base href and generated URLs use
   `/photo-background/`, not `/` or a relative development path.
-- **Deep links show the portal 404:** this is a known limitation of the current assembled-site
-  deployment. A nested app `404.html` alone does not provide the site-level fallback. Implement and
-  verify a root dispatcher, generated route entry points, or hash routing; do not replace the
-  portal's root behavior without testing unrelated missing URLs.
+- **Deep links show the portal 404:** confirm `scripts/move-build-files.js` generated static route
+  directories in the build output and that root `404.html` dispatcher exists in the portal.
 - **A device still shows the old app:** inspect its service-worker registration/cache, wait for the
   new worker to activate, or remove the installed PWA before retesting.
 - **Old chunks remain after sync:** the current copy operation is additive. Compare source and
   destination file lists and remove only destination files absent from the fresh source build.
 - **Local sync writes nowhere useful:** verify the two repositories are siblings and retain the
   exact directory names expected by `scripts/sync-portal.js`.
-- **Pages deploys an unexpected artifact:** inspect Actions in both repositories; the duplicate
-  source-repository Pages workflow remains a known ambiguity until the roadmap item is completed.
+- **Portal root has lingering worker:** the root `script.js` automatically unregisters any legacy
+  service worker registered with `/` scope on first portal visit.
+

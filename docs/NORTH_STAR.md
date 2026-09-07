@@ -70,15 +70,16 @@ Important limitations in the current implementation:
 The roadmap is ordered. Later milestones must not be used to avoid the quality, privacy, and
 reliability work in earlier milestones.
 
-### 1. Make the current prototype truthful and mechanically sound
+### 1. Make the current prototype truthful and mechanically sound (Completed)
 
-Fix GitHub Pages routing, eliminate fake-success behavior, correct aspirational product/privacy
-copy, self-host assets needed offline, and establish good test fixtures. Keep customer photos
-ephemeral by default.
-
-For the current repositories, mechanical soundness also includes making the portal repository the
-only production Pages deployer, making cross-repository artifact synchronization exact, and making
-each deployed artifact traceable to its application source commit.
+Resolved GitHub Pages routing defects by implementing static HTML route entry points generated at
+build time (`editor/index.html`, `about/index.html`, `merchandise/index.html`, `privacy-policy/index.html`,
+`support/index.html`) backed by a root `404.html` dispatcher. Eliminated fake ticket submission forms
+with realistic operator checklists. Converted typography and icons to 100% self-hosted, offline-ready
+system stacks without runtime Google CDN dependencies. Retired the duplicate GitHub Pages deployment
+workflow in `photo-background` in favor of validation-only CI, establishing `Fun-Photos.github.io` as
+the sole authoritative production deployer. Implemented root service-worker cleanup so the portal root
+does not compete with the `/photo-background/` PWA.
 
 ### 2. Implement production-quality local background removal (Completed)
 
@@ -108,12 +109,17 @@ been translated, scaled, or rotated. Added visual circular cursor indicators, si
 pristine `baseMask` preservation enabling "Reset Cutout" to cleanly restore the automatic MODNet
 result. Automatic re-extraction explicitly notifies the operator and clears manual brush state.
 
-### 5. Finish the actual photo editor
+### 5. Finish the actual photo editor (Completed)
 
-Complete the background library, uploaded backgrounds, persistent custom backgrounds, crop/aspect
-presets, foreground move/scale/rotation, background positioning, transparent-background mode,
-useful before/after comparison, and appropriate image adjustments. Modest brightness, contrast,
-and saturation controls are reasonable; the goal is not to become Photoshop.
+Completed the background management system with genuinely lazy IndexedDB storage: lightweight
+thumbnails (~320px) and metadata in memory, authoritative Blobs fetched by ID on demand for export
+and selection. Added bulk multi-file and folder imports with progress indication, pack organization,
+favorites, recents, search, rename, and delete with confirmation. Added Fill / Fit mode and dedicated
+operator background repositioning interaction with Center and Done controls using identical geometry
+in preview and export. Added Hold for Original instant comparison, equipment-neutral print presets
+(`5 × 5 in — 1500 × 1500 px`, `8 × 10 in — 2400 × 3000 px`, `12 × 14 in — 3600 × 4200 px` at 300 PPI),
+and operator preference persistence.
+
 
 ### 6. Add the controlled-event workflows that fit the original Fun Photos business
 
